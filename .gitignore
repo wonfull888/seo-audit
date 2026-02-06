@@ -1,0 +1,32 @@
+# 环境变量和敏感配置
+.env
+*.env
+.env.local
+.env.*.local
+
+# API Keys
+api_keys.txt
+*api_key*.txt
+*apikey*.txt
+
+# 临时文件
+*.tmp
+*.temp
+
+# 日志文件
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 用户配置（包含 API Key）
+config.local.json
+*.local.json
