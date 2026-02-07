@@ -1,6 +1,8 @@
 # SEO Audit Skill
 
-> 基于 Google Content Warehouse 泄露信号设计的 73 项 SEO 诊断工具
+> 基于微软官方搜索指南设计的 73 项 SEO 诊断工具
+
+文档来源：[微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
@@ -40,7 +42,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/seo-audit.git
+git clone https://github.com/wonfull888/seo-audit.git
 
 # 复制到 skills 目录
 cp -r seo-audit ~/.claude/skills/
@@ -240,6 +242,11 @@ seo-audit/
 - Google Content Warehouse 泄露文档分析社区
 - [Hobo SEO Audit Framework](https://www.hobo-web.co.uk/)
 - SCA (Specialty Coffee Association) - 示例报告参考
+
+### 参考指南
+
+- **Google 搜索指南** (中文) - [https://developers.google.com/search/docs?hl=zh-cn](https://developers.google.com/search/docs?hl=zh-cn)
+- **微软 AEO & GEO 指导** - [https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 ---
 

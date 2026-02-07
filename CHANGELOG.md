@@ -26,14 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### 核心功能
 - ✅ 73 项 SEO 检查清单
-  - ✅ 技术 SEO（25 项，30% 权重）
-  - ✅ 页面元素（20 项，20% 权重）
-  - ✅ 内容质量与 E-E-A-T（28 项，50% 权重）
+  - ✅ 三维度诊断：技术 SEO（25 项）+ 页面元素（20 项）+ E-E-A-T（28 项）
 - ✅ E-E-A-T 子维度分析
   - ✅ Trust（信任度，8 项，40% of E-E-A-T）
   - ✅ Experience（经验，7 项，20% of E-E-A-T）
   - ✅ Expertise（专业度，7 项，20% of E-E-A-T）
   - ✅ Authoritativeness（权威性，6 项，20% of E-E-A-T）
+- ✅ **文档来源更新**：基于微软官方搜索指南（[AEO & GEO](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)）
 - ✅ 双模式支持
   - ✅ 完整模式（73 项，需 API Key）
   - ✅ 基础模式（65 项，零配置，跳过 Core Web Vitals）

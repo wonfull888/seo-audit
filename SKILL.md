@@ -9,7 +9,9 @@ description: |
 
 # SEO Audit Skill
 
-基于 Google Content Warehouse 泄露文档设计的证据驱动型 SEO 诊断工具。
+基于微软官方搜索指南设计的证据驱动型 SEO 诊断工具。
+
+文档来源：[微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 ## 快速开始
 

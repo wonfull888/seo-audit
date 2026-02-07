@@ -1,6 +1,6 @@
 # 内容质量与 E-E-A-T 检查项（28 项）
 
-基于 Google Content Warehouse 泄露文档和 Google Quality Rater Guidelines 设计的内容质量评估框架。
+内容质量与 E-E-A-T 评估框架基于微软官方搜索指南设计的 SEO 最佳实践。
 
 > "Trust is the most important member of the E-E-A-T family because untrustworthy pages have low E-E-A-T no matter how Experienced, Expert, or Authoritative they may seem." — Google Quality Rater Guidelines
 

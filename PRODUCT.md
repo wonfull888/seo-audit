@@ -1,8 +1,8 @@
 # SEO Audit Skill - 产品说明
 
-## 产品定位
+SEO Audit Skill 是一个基于微软官方搜索指南设计的证据驱动型 SEO 诊断工具。
 
-SEO Audit Skill 是一个基于 Google Content Warehouse 泄露信号设计的证据驱动型 SEO 诊断工具。
+文档来源：[微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 **核心价值**：传统 SEO 工具只关注技术指标，忽略了 Google 真正看重的 E-E-A-T 信号。
 
