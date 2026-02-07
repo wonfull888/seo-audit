@@ -1,9 +1,10 @@
 # SEO Audit Skill
 
-> 基于微软官方搜索指南设计的 73 项 SEO 诊断工具
+> 基于 Google 搜索指南、Ahrefs SEO Checklist 及微软官方搜索指南设计的 73 项 SEO 诊断工具（持续更新中）
 
 文档来源：
 - [Google 搜索指南](https://developers.google.com/search/docs?hl=zh-cn)
+- [Ahrefs SEO Checklist](https://ahrefs.com/blog/seo-ai-search-checklist/)
 - [微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -28,13 +29,24 @@
 
 ## 为什么需要这个 Skill？
 
-传统 SEO 工具只关注技术指标，忽略了 Google 真正看重的 **E-E-A-T 信号**。
+### 💡 开发初衷
 
-本 Skill 基于 2024 年 Google Content Warehouse 泄露文档，设计了完整的 73 项检查清单，覆盖：
+传统 SEO 工具往往需要**繁琐的登录**或**昂贵的付费订阅**，对于快速诊断来说门槛太高。
 
-- **技术 SEO**（25 项）- 可发现性、性能、安全性、结构化数据
-- **页面元素**（20 项）- Title、Meta、H 标签、图片、社交标签
-- **内容质量与 E-E-A-T**（28 项）- Trust、Experience、Expertise、Authoritativeness
+随着 AI 大模型的高速发展，我们迎来了 **Token 自由** 的时代。这意味着我们可以轻松构建属于自己的轻量级工具，不再受限于传统 SaaS 的限制。
+
+### 🚀 对你的价值
+
+1. **零门槛、零付费**：无需注册账号，无需绑定信用卡，甚至不需要安装复杂的 Python/Node.js 环境。
+2. **轻量级、即用即走**：基于 AI Agent 的 Skill 形式，一行命令即可启动诊断。
+3. **透明可控**：所有检查逻辑开源，基于权威文档（Google/微软/Ahrefs），而非黑盒算法。
+4. **持续进化**：
+   - 目前支持 Markdown 报告导出
+   - 未来计划支持 **可视化图表**、**批量诊断** 和 **历史趋势对比**
+
+本 Skill 旨在为你提供一个**快速、免费、且专业的网站体检报告**。
+
+---
 
 ## 快速开始
 
@@ -214,6 +226,7 @@ seo-audit/
 ### 参考指南
 
 - **Google 搜索指南** (中文) - [https://developers.google.com/search/docs?hl=zh-cn](https://developers.google.com/search/docs?hl=zh-cn)
+- **Ahrefs SEO AI Search Checklist** - [https://ahrefs.com/blog/seo-ai-search-checklist/](https://ahrefs.com/blog/seo-ai-search-checklist/)
 - **微软 AEO & GEO 指导** - [https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 ---
