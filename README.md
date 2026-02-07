@@ -2,7 +2,9 @@
 
 > 基于微软官方搜索指南设计的 73 项 SEO 诊断工具
 
-文档来源：[微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
+文档来源：
+- [Google 搜索指南](https://developers.google.com/search/docs?hl=zh-cn)
+- [微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
@@ -82,7 +84,7 @@ export PAGE_SPEED_API_KEY="your_api_key_here"
 
 #### 方式 1：完整诊断（有 API Key）
 
-```
+```bash
 # 先设置环境变量
 export PAGE_SPEED_API_KEY="your_api_key_here"
 
@@ -94,7 +96,7 @@ export PAGE_SPEED_API_KEY="your_api_key_here"
 
 #### 方式 2：基础诊断（无 API Key）
 
-```
+```bash
 # 直接使用，无需配置
 对 https://example.com 进行 SEO 诊断
 
@@ -187,27 +189,6 @@ seo-audit/
     └── example-report.md       # 示例报告
 ```
 
-## 文件结构
-
-```
-seo-audit/
-├── SKILL.md                    # Skill 主入口
-├── README.md                   # 本文件
-├── USAGE.md                   # 📖 详细使用指南（推荐阅读）
-├── API_KEY_SETUP.md            # API Key 配置文档
-├── LICENSE                     # MIT 许可证
-├── CHANGELOG.md                # 版本历史
-├── references/
-│   ├── technical-seo.md        # 技术 SEO 25 项详情
-│   ├── on-page-elements.md     # 页面元素 20 项详情
-│   ├── content-eeat.md         # E-E-A-T 28 项详情
-│   ├── scoring-system.md       # 评分系统
-│   ├── report-template.md      # 报告模板
-│   └── ai-writing-detection.md # AI 写作特征检测
-└── assets/
-    └── example-report.md       # 示例报告
-```
-
 ## 技术要求
 
 本 Skill 不依赖 Python/Node.js，仅需：
@@ -216,22 +197,9 @@ seo-audit/
 - **WebFetch** - AI 内置工具
 - **PageSpeed API** - 可选（推荐配置以获取完整报告，见 [USAGE.md](USAGE.md)）
 
-### API Key 安全
-
-- ⚠️ 永远不要将 API Key 提交到 Git
-- 使用环境变量存储 API Key
-- `.gitignore` 已配置忽略敏感文件
-
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request！
-
-### 改进方向
-
-- [ ] 添加更多检查项
-- [ ] 支持批量网址诊断
-- [ ] 生成可视化雷达图
-- [ ] 竞品对比分析
 
 ## 许可证
 
