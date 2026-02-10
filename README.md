@@ -8,7 +8,7 @@
 - [微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.2.2-blue.svg)]()
 
 ## 快速选择：你需要哪种模式？
 

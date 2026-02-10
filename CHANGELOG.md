@@ -5,7 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.0] - 2026-02-10
+## [1.2.2] - 2026-02-10
+
+### Changed
+
+#### 报告结构优化
+- ✅ **页面数据预览前置** - 将 Title、Meta Description、H1 等实际内容从附录移至"页面元素"部分开头
+- ✅ **提升阅读连贯性** - 用户先看实际数据（Title 写的是什么），再看检查结果（Title 是否合规），无需跳转
+- ✅ **附录精简化** - 附录仅保留分析信息（URL、时间戳、数据来源），不再承载核心数据展示
+
+#### 文档更新
+- ✅ `references/report-template.md` - 重构页面元素部分结构：
+  - 新增 `2.1 页面数据预览`（Title & Meta Description 表格、H 标签结构、关键词分布）
+  - 新增 `2.2 检查结果明细`（原 P1-P27 检查表格）
+  - 移除附录中的页面数据详情（已前置）
+
+### Technical Details
+
+**新模板结构：**
+```
+## 📝 详细检查清单
+### 1. 技术 SEO (29项)
+[统一6列表格]
+
+### 2. 页面元素 (27项)
+#### 2.1 页面数据预览
+  - Title & Meta Description 表格
+  - H 标签结构
+  - 关键词分布
+#### 2.2 检查结果明细
+[统一6列表格]
+
+### 3. E-E-A-T (33项)
+[统一6列表格]
+
+## 附录
+### A. 分析信息
+  - URL、爬取时间、数据来源
+```
+
+---
+
+## [1.2.1] - 2026-02-10
+
+### Added
 
 ### Added
 
