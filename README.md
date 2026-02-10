@@ -1,6 +1,6 @@
 # SEO Audit Skill
 
-> 基于 Google 搜索指南、Ahrefs SEO Checklist 及微软官方搜索指南设计的 73 项 SEO 诊断工具（持续更新中）
+> 基于 Google 搜索指南、Ahrefs SEO Checklist 及微软官方搜索指南设计的 92 项 SEO 诊断工具（持续更新中）
 
 文档来源：
 - [Google 搜索指南](https://developers.google.com/search/docs?hl=zh-cn)
@@ -8,18 +8,19 @@
 - [微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)]()
 
 ## 快速选择：你需要哪种模式？
+
+本工具现已支持**智能交互模式**，自动检测环境并推荐最佳诊断方案。
 
 | 功能 | 完整模式（推荐） | 基础模式 |
 |------|----------------|----------|
 | **配置复杂度** | 需要配置 API Key | 零配置，开箱即用 |
-| **检查项数** | 73 项 | 65 项 |
+| **检查项数** | 92 项 | 84 项 |
 | **Core Web Vitals** | ✅ LCP, FCP, CLS, INP | ❌ 跳过 |
 | **PageSpeed 评分** | ✅ 移动端 + 桌面端 | ❌ 跳过 |
-| **技术 SEO 权重** | 30% | 25% |
-| **E-E-A-T 权重** | 50% | 55% |
+| **技术 SEO 权重** | 32% | 27% |
 | **适用场景** | 完整 SEO 诊断 | 快速内容检查 |
 | **免费额度** | 每天 25,000 次请求 | N/A |
 
@@ -62,17 +63,23 @@ git clone https://github.com/wonfull888/seo-audit.git
 cp -r seo-audit ~/.claude/skills/
 ```
 
+### 使用
+
+只需输入以下命令，工具会自动引导你完成后续步骤：
+
+```bash
+# 开始诊断
+对 https://example.com 进行 SEO 诊断
+```
+
+- 如果你**已配置** API Key：自动开始完整诊断。
+- 如果你**未配置** API Key：助手会询问是否现在配置，或者仅进行基础诊断。
+
 ### 配置 API Key（推荐，非必需）
 
 **⭐ 免费额度：每天 25,000 次请求！**
 
-Google PageSpeed Insights API 提供免费配额，个人使用完全够用：
-
-| 使用场景 | 每月请求 | 可用时长 |
-|---------|-----------|---------|
-| 每天诊断 1 个网站 | 180 次 | 约 11 年 |
-| 每天诊断 10 个网站 | 1,800 次 | 约 14 个月 |
-| 每天诊断 100 个网站 | 18,000 次 | 约 1.5 个月 |
+Google PageSpeed Insights API 提供免费配额，个人使用完全够用。
 
 #### 配置步骤
 
@@ -92,75 +99,38 @@ export PAGE_SPEED_API_KEY="your_api_key_here"
 
 详细说明：[API_KEY_SETUP.md](API_KEY_SETUP.md)
 
-### 使用
-
-#### 方式 1：完整诊断（有 API Key）
-
-```bash
-# 先设置环境变量
-export PAGE_SPEED_API_KEY="your_api_key_here"
-
-# 开始诊断
-对 https://example.com 进行 SEO 诊断
-
-# 结果：完整 73 项检查 + 性能数据
-```
-
-#### 方式 2：基础诊断（无 API Key）
-
-```bash
-# 直接使用，无需配置
-对 https://example.com 进行 SEO 诊断
-
-# 结果：65 项检查（跳过 Core Web Vitals）+ 调整评分权重
-```
-
-**差异对比：**
-
-| 功能 | 有 API Key | 无 API Key |
-|------|-----------|-----------|
-| 检查项数 | 73 项 | 65 项 |
-| 技术 SEO 权重 | 30% | 25% |
-| E-E-A-T 权重 | 50% | 55% |
-| Core Web Vitals | ✅ LCP, FCP, CLS, INP | ❌ 跳过 |
-| PageSpeed 评分 | ✅ 移动端 + 桌面端 | ❌ 跳过 |
-
 ## 诊断流程
 
 ```
 用户输入网址
     ↓
-1. 页面识别（sitemap.xml 或启发式）
+1. 智能环境检测 (API Key check) -> 交互确认
     ↓
-2. 选择 3 个代表页面（首页 + 分类页 + 文章页）
+2. 页面识别（sitemap.xml 或启发式）
     ↓
-3. 数据采集
+3. 选择 3 个代表页面（首页 + 分类页 + 文章页）
+    ↓
+4. 数据采集
    ├─ curl: robots.txt, HTTP headers
    ├─ WebFetch: 3 个页面 HTML
-   └─ PageSpeed API: 6 次调用（3 URL × 2 策略）
+   └─ PageSpeed API: 6 次调用（3 URL × 2 策略，仅完整模式）
     ↓
-4. 三维度分析（73 项检查）
+5. 四维度分析（92 项检查）
     ↓
-5. 生成诊断报告
+6. 生成诊断报告
+   ├─ 完整展示在对话中
+   └─ 保存为 Markdown 文件
 ```
 
 ## 检查项概览
 
 | 维度 | 检查项数 | 权重 | 说明 |
 |------|----------|------|------|
-| 技术 SEO | 25 项 | 30% | Core Web Vitals、索引、安全 |
-| 页面元素 | 20 项 | 20% | Title、Meta、H 标签、图片 |
-| 内容质量与 E-E-A-T | 28 项 | 50% | Google 核心排名信号 |
-| **总计** | **73 项** | **100%** | |
-
-### E-E-A-T 细分
-
-| 子维度 | 检查项 | 占总权重 |
-|--------|--------|----------|
-| Trust（信任度） | 8 项 | 20% |
-| Experience（经验） | 7 项 | 10% |
-| Expertise（专业度） | 7 项 | 10% |
-| Authoritativeness（权威性） | 6 项 | 10% |
+| 技术 SEO | 29 项 | 32% | Core Web Vitals、索引、安全 |
+| 页面元素 | 27 项 | 29% | Title、Meta、AI 搜索优化 |
+| 内容质量与 E-E-A-T | 33 项 | 36% | Google 核心排名信号 |
+| 本地 SEO | 3 项 | 3% | LocalBusiness Schema, NAP |
+| **总计** | **92 项** | **100%** | |
 
 ## 评分标准
 
@@ -179,8 +149,9 @@ export PAGE_SPEED_API_KEY="your_api_key_here"
 报告包含：
 - 综合评分与各维度得分
 - P0/P1/P2 优先级行动清单
-- 73 项逐条检查结果
+- 92 项逐条检查结果
 - 针对性优化建议（附代码示例）
+- **开发者署名页脚**
 
 ## 文件结构
 

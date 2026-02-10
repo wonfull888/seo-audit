@@ -1,6 +1,6 @@
 ---
 name: seo-audit
-version: 1.1.0
+version: 1.2.0
 description: |
   SEO 诊断专家,基于 Google、Ahrefs、微软搜索指南设计的 92 项检查清单。
   触发词:SEO审计、SEO诊断、网站SEO检查、为什么排名不好、技术SEO检查、页面SEO、E-E-A-T检查、内容质量分析。
@@ -16,6 +16,46 @@ description: |
 - [Ahrefs 82项 SEO+AI 搜索清单](https://ahrefs.com/blog/seo-ai-search-checklist/)
 - [微软 AEO & GEO 指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
+## 交互与执行规范 (必读)
+
+当用户请求进行 SEO 诊断时，必须遵循以下执行流程：
+
+### 1. 环境检查与交互
+
+在开始任何诊断之前，**必须**先检查环境变量 `PAGE_SPEED_API_KEY`。
+
+- **情况 A：API Key 已配置**
+  - 直接执行**完整诊断模式**（包含 PageSpeed 性能分析）。
+  - 无需额外询问用户。
+
+- **情况 B：API Key 未配置**
+  - **暂停执行**，向用户发送以下询问：
+    > "检测到未配置 PageSpeed API Key。
+    > **配置 API Key** 可以获取 Google 官方性能评分（Core Web Vitals），这是技术 SEO 的重要组成部分。
+    >
+    > 您想怎么做？
+    > 1. **现在配置**（我将引导您设置，然后进行完整诊断）
+    > 2. **仅进行基础诊断**（跳过性能分析，立即开始）"
+  - 根据用户回复执行：
+    - 选择 1：提示用户输入 Key，设置环境变量 `export PAGE_SPEED_API_KEY="..."`，然后执行完整诊断。
+    - 选择 2：执行**基础诊断模式**（跳过 PageSpeed API 调用，技术 SEO 权重调整为 27%）。
+
+### 2. 报告展示规范
+
+- **完整展示**：诊断完成后，必须在当前对话中**完整展示**生成的 Markdown 报告内容。
+- **文件保存**：
+  - 必须将报告保存为 Markdown 文件。
+  - 命名格式：`seo-audit-report-{domain}-{timestamp}.md`
+  - 保存路径：用户当前工作目录或指定目录。
+- **品牌页脚**：
+  - 所有生成的报告（无论是展示还是保存的文件），**必须**在文件末尾包含以下品牌信息：
+    ```markdown
+    ---
+    **SEO Audit Skill** | [GitHub](https://github.com/wonfull888/seo-audit) | Developer: [x.com/wonfull888](https://x.com/wonfull888)
+    ```
+
+---
+
 ## 快速开始
 
 ```
@@ -28,32 +68,34 @@ description: |
 ```
 用户输入网址
     ↓
-1. 页面识别
+1. 环境检查 (API Key check) -> 交互确认
+    ↓
+2. 页面识别
    ├─ 尝试获取 /sitemap.xml
    ├─ 成功 → 解析 URL 结构
    └─ 失败 → 从首页链接启发式识别
     ↓
-2. 选择 3 个代表页面
+3. 选择 3 个代表页面
    ├─ 首页: /
    ├─ 分类页: 第一层路径(如 /blog, /products)
    └─ 文章页: 最深层路径
     ↓
-3. 数据采集(并行)
+4. 数据采集(并行)
    ├─ curl: robots.txt, HTTP headers
    ├─ WebFetch: 3 个页面 HTML
-   └─ PageSpeed API: 3 个 URL(移动端 + 桌面端)
+   └─ PageSpeed API: 3 个 URL(仅完整模式)
     ↓
-4. 四维度分析
-   ├─ 技术 SEO(29 项)→ technical-seo.md + technical-seo-enhanced.md
-   ├─ 页面元素(27 项)→ on-page-elements.md + ai-search-optimization.md + content-distribution.md
-   ├─ 内容质量与 E-E-A-T(33 项)→ content-eeat.md + content-quality-enhanced.md + trust-signals-enhanced.md
-   └─ 本地 SEO(3 项)→ local-seo-enhanced.md
+5. 四维度分析
+   ├─ 技术 SEO(29 项)
+   ├─ 页面元素(27 项)
+   ├─ 内容质量与 E-E-A-T(33 项)
+   └─ 本地 SEO(3 项)
     ↓
-5. 生成报告
+6. 生成报告
    ├─ 综合评分(0-100)
-   ├─ 各维度评分
-   ├─ 问题清单(P0/P1/P2 优先级)
-   └─ 优化建议
+   ├─ 问题清单(P0/P1/P2)
+   ├─ 优化建议
+   └─ **保存文件 & 完整展示**
 ```
 
 ## 检查项概览
@@ -65,43 +107,6 @@ description: |
 | 内容质量与 E-E-A-T | 33 项 | 36% | [content-eeat.md](references/content-eeat.md) + [质量](references/content-quality-enhanced.md) + [信任](references/trust-signals-enhanced.md) |
 | 本地 SEO | 3 项 | 3% | [local-seo-enhanced.md](references/local-seo-enhanced.md) |
 | **总计** | **92 项** | **100%** | |
-
-## 新增功能 (v1.1.0)
-
-### 🔧 技术 SEO 增强 (4项)
-- **Hreflang标签** - 多语言/多地区配置检测,避免国际SEO重复内容问题
-- **服务器渲染检测** - SSR vs CSR判断爬虫友好度,确保内容可抓取
-- **现代图片格式** - 检测WebP/AVIF使用,相同质量下文件小30-50%
-- **浏览器缓存配置** - HTTP headers缓存设置检查,提高回访速度
-
-### 📄 页面元素增强 (7项)
-
-**AI搜索优化 (5项)** - 基于 Ahrefs 82项清单:
-- **TL;DR摘要检测** - AI搜索引擎偏好引用包含简洁摘要的页面
-- **Answer-Oriented Writing** - 检测"先结论后支撑"的写作模式
-- **可引用内容块** - 识别表格、步骤列表等AI易摘录的格式
-- **FAQ Schema** - 检测FAQPage结构化数据提高AI问答展示
-- **语音搜索优化** - 检测自然语言问答格式适配语音助手
-
-**内容分发优化 (2项)**:
-- **多平台社交标签** - 除OG/Twitter外的平台标签检测
-- **标题吸引力** - 分析情感化元素提高社交分享率
-
-### ✍️ 内容质量与E-E-A-T增强 (5项)
-
-**内容质量 (3项)**:
-- **内容可扫描性** - 分析段落/句子长度和列表使用
-- **术语定义** - 检测专业术语首次出现时的解释
-- **多媒体丰富度** - 统计视频/音频/交互内容
-
-**Trust信任信号 (2项)**:
-- **退款保证** - 电商/SaaS网站保证政策检测,降低用户购买风险
-- **安全认证徽章** - 识别SSL/ISO/行业认证等信任标记
-
-### 🌍 本地 SEO 增强 (3项)
-- **LocalBusiness Schema** - 检测本地商家结构化数据
-- **Google Maps嵌入** - 检测地图嵌入提高本地相关性
-- **NAP一致性** - 对比名称/地址/电话的一致性
 
 ## 评分系统
 
@@ -156,24 +161,6 @@ Google PageSpeed Insights API 提供 **每天 25,000 次免费请求**,个人使
 
 详细说明:[API_KEY_SETUP.md](API_KEY_SETUP.md)
 
-### PageSpeed API 调用
-
-⚠️ **重要**: PageSpeed API 需要有效的 API Key。请先设置环境变量:
-
-```bash
-export PAGE_SPEED_API_KEY="your_api_key_here"
-```
-
-详细配置说明:[API_KEY_SETUP.md](API_KEY_SETUP.md)
-
-```bash
-# 移动端
-curl "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&strategy=mobile&key=${PAGE_SPEED_API_KEY}"
-
-# 桌面端
-curl "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&strategy=desktop&key=${PAGE_SPEED_API_KEY}"
-```
-
 ## 检查标准
 
 | 项目 | 标准 |
@@ -198,5 +185,6 @@ curl "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&stra
 
 ## 版本历史
 
+- **v1.2.0** (2026-02-10): 新增智能交互模式，自动检测 API Key 状态；规范报告展示与保存格式。
 - **v1.1.0** (2026-02-10): 新增19项检查,从73项扩展到92项,四维度优化结构
 - **v1.0.0** (2026-02-06): 首个完整版本,73 项检查

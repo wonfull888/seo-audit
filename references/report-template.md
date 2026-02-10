@@ -248,7 +248,8 @@
 
 ---
 
-**报告结束**
+**SEO Audit Skill** | [GitHub](https://github.com/wonfull888/seo-audit) | Developer: [x.com/wonfull888](https://x.com/wonfull888)
+
 ```
 
 ## 状态符号说明
