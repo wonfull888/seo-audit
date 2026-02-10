@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-02-10
+
+### Added
+
+#### 智能交互模式
+- ✅ **环境自检** - 自动检测 `PAGE_SPEED_API_KEY` 环境变量状态。
+- ✅ **智能引导** - 当未配置 API Key 时，主动询问用户选择"完整诊断"（引导配置）或"基础诊断"（跳过性能分析）。
+- ✅ **交互式流程** - 优化用户体验，避免因环境问题导致诊断失败或结果不完整。
+
+#### 报告规范化
+- ✅ **完整展示** - 诊断结束后，Markdown 报告直接在对话框中完整渲染。
+- ✅ **自动保存** - 报告自动保存为 `seo-audit-report-{domain}-{timestamp}.md`。
+- ✅ **品牌页脚** - 所有报告底部统一添加 GitHub 仓库和开发者 X 账号链接，增强品牌传播。
+
+### Changed
+- ✅ `SKILL.md` - 新增"交互与执行规范"章节，明确 API Key 检查和报告输出要求。
+- ✅ `references/report-template.md` - 更新模板，添加标准化的品牌页脚。
+- ✅ `README.md` - 更新快速开始和诊断流程，说明新的交互模式。
+
+---
+
 ## [1.1.0] - 2026-02-10
 
 ### Added
@@ -184,9 +205,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ 环境变量支持
 
 ---
-
-## [Unreleased]
-
-### 计划中
-
-详见 [VERSION_1.1.0.md](VERSION_1.1.0.md) 及 [PRODUCT.md](PRODUCT.md)
