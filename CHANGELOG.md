@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-02-18
+
+### Added
+
+#### Complete internationalization baseline
+- ✅ English-first documentation experience (`README.md` default in English)
+- ✅ Chinese companion README (`README.zh-CN.md`)
+- ✅ Bilingual docs structure under `docs/en/` and `docs/zh-CN/`
+- ✅ Language entry pages for `USAGE.md`, `API_KEY_SETUP.md`, `QUOTA.md`
+
+#### Intelligent report language selection
+- ✅ Explicit report flags: `--en`, `--zh`
+- ✅ Auto language detection workflow documented in `references/language-detection.md`
+- ✅ Low-confidence fallback strategy documented in `references/quick-confirm-mechanism.md`
+
+#### Bilingual report artifacts
+- ✅ Added `references/report-template.en.md`
+- ✅ Added `references/report-template.zh-CN.md`
+- ✅ Added English example report `assets/example-report.en.md`
+- ✅ Added Chinese mapping file `assets/example-report.zh-CN.md`
+
+### Changed
+
+- ✅ `SKILL.md`
+  - version bumped to `1.3.0`
+  - added report-language detection section
+  - updated template selection rules for bilingual output
+- ✅ `references/report-template.md` changed to compatibility entry
+- ✅ README and usage docs updated with language-switch links and language-priority behavior
+
+### Notes
+
+- v1.4.0 is planned for smart website-type detection and dynamic page selection.
+
 ## [1.2.2] - 2026-02-10
 
 ### Changed

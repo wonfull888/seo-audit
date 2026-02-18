@@ -1,10 +1,10 @@
 ---
 name: seo-audit
-version: 1.2.2
+version: 1.3.0
 description: |
   SEO 诊断专家,基于 Google、Ahrefs、微软搜索指南设计的 92 项检查清单。
   触发词:SEO审计、SEO诊断、网站SEO检查、为什么排名不好、技术SEO检查、页面SEO、E-E-A-T检查、内容质量分析。
-  输入一个网址,自动执行技术SEO(29项)、页面元素(27项)、内容质量与E-E-A-T(33项)、本地SEO(3项)四维度诊断,生成详细报告和优化建议。
+  输入一个网址,自动执行技术SEO(29项)、页面元素(27项)、内容质量与E-E-A-T(33项)、本地SEO(3项)四维度诊断,支持智能语言检测并生成中英文报告。
 ---
 
 # SEO Audit Skill
@@ -56,15 +56,62 @@ description: |
 - **全量检查展示**：
   - **禁止折叠**：报告必须使用表格形式展示所有 92 项检查结果，无论通过与否。
   - **逐项列出**：即使是"通过"的项目，也必须在对应的维度表格中列出 ID、检查项名称、结果和状态。
-  - **严格遵循模板**：必须严格遵循 `references/report-template.md` 的结构，不得擅自简化或省略表格行。
+  - **严格遵循模板**：
+    - 英文报告：`references/report-template.en.md`
+    - 中文报告：`references/report-template.zh-CN.md`
+    - 仅在兼容场景使用 `references/report-template.md`（英文默认入口）
+
+### 3. 报告语言检测
+
+在开始采集数据前，必须先确定报告语言。
+
+#### 检测优先级
+
+1. **显式标志（最高优先级）**
+   - 包含 `--en` / `--english`：英文报告
+   - 包含 `--zh` / `--zh-CN` / `--中文`：中文报告
+
+2. **自动语言检测（无显式标志时）**
+   - 统计输入中的中文字符占比
+   - 中文占比 > 30%：中文（高置信度）
+   - 中文占比 < 10%：英文（高置信度）
+   - 10% - 30%：低置信度，使用快速确认提示
+
+3. **默认语言**
+   - 默认英文（国际化默认）
+
+#### 检测提示
+
+```text
+📝 Report language: English (auto-detected)
+   To override: add --zh
+```
+
+低置信度提示（无阻塞，使用默认值继续）：
+
+```text
+⚠️ Cannot auto-detect language with high confidence.
+Select report language:
+1. English (recommended)
+2. 中文
+Default: English
+```
+
+实现细节参考：`references/language-detection.md` 和 `references/quick-confirm-mechanism.md`
 
 ---
 
 ## 快速开始
 
-```
-/seo-audit https://example.com           # 中文报告(默认)
-/seo-audit https://example.com --en      # 英文报告
+```bash
+# 自动检测语言（推荐）
+/seo-audit https://example.com
+
+# 显式指定英文报告
+/seo-audit https://example.com --en
+
+# 显式指定中文报告
+/seo-audit https://example.com --zh
 ```
 
 ## 工作流程
@@ -74,28 +121,33 @@ description: |
     ↓
 1. 环境检查 (API Key check) -> 交互确认
     ↓
-2. 页面识别
+2. 报告语言检测
+   ├─ 显式标志优先 (--en / --zh)
+   ├─ 输入语言自动检测
+   └─ 默认英文
+    ↓
+3. 页面识别
    ├─ 尝试获取 /sitemap.xml
    ├─ 成功 → 解析 URL 结构
    └─ 失败 → 从首页链接启发式识别
     ↓
-3. 选择 3 个代表页面
+4. 选择 3 个代表页面
    ├─ 首页: /
    ├─ 分类页: 第一层路径(如 /blog, /products)
    └─ 文章页: 最深层路径
     ↓
-4. 数据采集(并行)
+5. 数据采集(并行)
    ├─ curl: robots.txt, HTTP headers
    ├─ WebFetch: 3 个页面 HTML
    └─ PageSpeed API: 3 个 URL(仅完整模式)
     ↓
-5. 四维度分析
+6. 四维度分析
    ├─ 技术 SEO(29 项)
    ├─ 页面元素(27 项)
    ├─ 内容质量与 E-E-A-T(33 项)
    └─ 本地 SEO(3 项)
     ↓
-6. 生成报告
+7. 生成报告
    ├─ 综合评分(0-100)
    ├─ 问题清单(P0/P1/P2)
    ├─ 92项完整检查清单(表格)
@@ -127,7 +179,11 @@ description: |
 
 ## 报告模板
 
-→ 详见 [references/report-template.md](references/report-template.md)
+根据报告语言选择对应模板：
+
+- 英文报告：[references/report-template.en.md](references/report-template.en.md)
+- 中文报告：[references/report-template.zh-CN.md](references/report-template.zh-CN.md)
+- 兼容入口：[references/report-template.md](references/report-template.md)
 
 ## 执行工具
 
@@ -180,16 +236,21 @@ Google PageSpeed Insights API 提供 **每天 25,000 次免费请求**,个人使
 
 ## 报告语言
 
-- **默认**: 中文
-- **可选**: 英文(用户在指令中说明即可,如 `--en` 或 "英文报告")
+- **默认**: 英文
+- **自动检测**: 基于用户输入语言
+- **可选覆盖**: `--en` / `--zh`
 
 ## 参考资料
 
 - [AI 写作特征检测](references/ai-writing-detection.md) - Em dash、高频词、AI 短语模式
-- [示例报告](assets/example-report.md) - 完整报告示例
+- [语言检测规则](references/language-detection.md)
+- [快速确认机制](references/quick-confirm-mechanism.md)
+- [示例报告（英文）](assets/example-report.en.md)
+- [示例报告（中文）](assets/example-report.md)
 
 ## 版本历史
 
+- **v1.3.0** (2026-02-18): 完整国际化支持。默认英文 README 和发布说明；新增文档双语结构、报告语言智能检测、双语报告模板与示例。
 - **v1.2.2** (2026-02-10): 优化报告结构，将页面数据预览（Title、Meta、H1）移至页面元素部分开头，提升阅读连贯性。
 - **v1.2.1** (2026-02-10): 强制全量报告展示，禁止折叠检查项。
 - **v1.2.0** (2026-02-10): 新增智能交互模式，自动检测 API Key 状态；规范报告展示与保存格式。

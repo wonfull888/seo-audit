@@ -1,205 +1,171 @@
 # SEO Audit Skill
 
-> 基于 Google 搜索指南、Ahrefs SEO Checklist 及微软官方搜索指南设计的 92 项 SEO 诊断工具（持续更新中）
+> Evidence-based SEO diagnostic skill built from Google Search Central, Ahrefs SEO checklist, and Microsoft's AEO/GEO guidance.
 
-文档来源：
-- [Google 搜索指南](https://developers.google.com/search/docs?hl=zh-cn)
-- [Ahrefs SEO Checklist](https://ahrefs.com/blog/seo-ai-search-checklist/)
-- [微软搜索指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
+[English](README.md) | [简体中文](README.zh-CN.md)
+
+Reference sources:
+- [Google Search Central](https://developers.google.com/search/docs)
+- [Ahrefs SEO + AI Search Checklist](https://ahrefs.com/blog/seo-ai-search-checklist/)
+- [Microsoft AEO & GEO Guide](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.2.2-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)]()
 
-## 快速选择：你需要哪种模式？
+## Quick Mode Selector
 
-本工具现已支持**智能交互模式**，自动检测环境并推荐最佳诊断方案。
+The skill supports an intelligent interaction flow and can run in two modes:
 
-| 功能 | 完整模式（推荐） | 基础模式 |
-|------|----------------|----------|
-| **配置复杂度** | 需要配置 API Key | 零配置，开箱即用 |
-| **检查项数** | 92 项 | 84 项 |
-| **Core Web Vitals** | ✅ LCP, FCP, CLS, INP | ❌ 跳过 |
-| **PageSpeed 评分** | ✅ 移动端 + 桌面端 | ❌ 跳过 |
-| **技术 SEO 权重** | 32% | 27% |
-| **适用场景** | 完整 SEO 诊断 | 快速内容检查 |
-| **免费额度** | 每天 25,000 次请求 | N/A |
+| Capability | Full Mode (Recommended) | Basic Mode |
+|------|--------------------------|------------|
+| Setup complexity | Requires API key | Zero setup |
+| Checklist size | 92 checks | 84 checks |
+| Core Web Vitals | Yes (LCP, FCP, CLS, INP) | Skipped |
+| PageSpeed score | Yes (Mobile + Desktop) | Skipped |
+| Best use case | Complete SEO audit | Fast content and structure review |
+| Free quota | 25,000 requests/day | N/A |
 
-> 📖 详细说明：[USAGE.md](USAGE.md)
+Detailed guide: [USAGE.md](USAGE.md)
 
----
+## Why This Skill Exists
 
-## 为什么需要这个 Skill？
+Traditional SEO tools often require account setup, paid subscriptions, and heavy workflows. This skill keeps the audit process lightweight and transparent.
 
-### 💡 开发初衷
+### Value
 
-传统 SEO 工具往往需要**繁琐的登录**或**昂贵的付费订阅**，对于快速诊断来说门槛太高。
+1. No lock-in: run directly in Claude Code, no external dashboard required.
+2. Practical: one command starts a full or basic audit.
+3. Transparent: checklist logic is open and based on public guidance.
+4. Evolving: includes report export, and continues to improve with each release.
 
-随着 AI 大模型的高速发展，我们迎来了 **Token 自由** 的时代。这意味着我们可以轻松构建属于自己的轻量级工具，不再受限于传统 SaaS 的限制。
+## Quick Start
 
-### 🚀 对你的价值
+### Install
 
-1. **零门槛、零付费**：无需注册账号，无需绑定信用卡，甚至不需要安装复杂的 Python/Node.js 环境。
-2. **轻量级、即用即走**：基于 AI Agent 的 Skill 形式，一行命令即可启动诊断。
-3. **透明可控**：所有检查逻辑开源，基于权威文档（Google/微软/Ahrefs），而非黑盒算法。
-4. **持续进化**：
-   - 目前支持 Markdown 报告导出
-   - 未来计划支持 **可视化图表**、**批量诊断** 和 **历史趋势对比**
-
-本 Skill 旨在为你提供一个**快速、免费、且专业的网站体检报告**。
-
----
-
-## 快速开始
-
-### 安装
-
-将 `SKILL.md` 和 `references/` 目录复制到你的 Claude Code skills 目录：
+Copy `SKILL.md` and `references/` into your Claude Code skills directory:
 
 ```bash
-# 克隆仓库
 git clone https://github.com/wonfull888/seo-audit.git
-
-# 复制到 skills 目录
 cp -r seo-audit ~/.claude/skills/
 ```
 
-### 使用
-
-只需输入以下命令，工具会自动引导你完成后续步骤：
+### Run
 
 ```bash
-# 开始诊断
-对 https://example.com 进行 SEO 诊断
+# Auto-detect report language (recommended)
+/seo-audit https://example.com
+
+# Force English report
+/seo-audit https://example.com --en
+
+# Force Chinese report
+/seo-audit https://example.com --zh
 ```
 
-- 如果你**已配置** API Key：自动开始完整诊断。
-- 如果你**未配置** API Key：助手会询问是否现在配置，或者仅进行基础诊断。
+Language selection priority:
+1. Explicit flag: `--en` / `--zh`
+2. Auto-detection from user input language
+3. Default fallback: English
 
-### 配置 API Key（推荐，非必需）
+### Configure PageSpeed API Key (Recommended)
 
-**⭐ 免费额度：每天 25,000 次请求！**
-
-Google PageSpeed Insights API 提供免费配额，个人使用完全够用。
-
-#### 配置步骤
+Google PageSpeed Insights API includes a free quota of 25,000 requests/day.
 
 ```bash
-# 设置环境变量
 export PAGE_SPEED_API_KEY="your_api_key_here"
 ```
 
-#### 获取免费 API Key
+More details:
+- [API_KEY_SETUP.md](API_KEY_SETUP.md)
+- [QUOTA.md](QUOTA.md)
 
-1. 访问 [Google Cloud Console](https://console.cloud.google.com/)
-2. 创建项目或选择现有项目
-3. 启用 **PageSpeed Insights API**
-4. 创建 API Key（免费）
+## Audit Workflow
 
-📊 **免费额度详情**：[QUOTA.md](QUOTA.md)
-
-详细说明：[API_KEY_SETUP.md](API_KEY_SETUP.md)
-
-## 诊断流程
-
-```
-用户输入网址
-    ↓
-1. 智能环境检测 (API Key check) -> 交互确认
-    ↓
-2. 页面识别（sitemap.xml 或启发式）
-    ↓
-3. 选择 3 个代表页面（首页 + 分类页 + 文章页）
-    ↓
-4. 数据采集
-   ├─ curl: robots.txt, HTTP headers
-   ├─ WebFetch: 3 个页面 HTML
-   └─ PageSpeed API: 6 次调用（3 URL × 2 策略，仅完整模式）
-    ↓
-5. 四维度分析（92 项检查）
-    ↓
-6. 生成诊断报告
-   ├─ 完整展示在对话中
-   └─ 保存为 Markdown 文件
+```text
+User provides URL
+    -> 1. Check environment (API key)
+    -> 2. Detect report language
+    -> 3. Discover pages (sitemap.xml + heuristics)
+    -> 4. Select representative pages (home + category + article)
+    -> 5. Collect data (curl + WebFetch + optional PageSpeed API)
+    -> 6. Analyze 4 dimensions (92 checks)
+    -> 7. Generate and save full Markdown report
 ```
 
-## 检查项概览
+## Checklist Overview
 
-| 维度 | 检查项数 | 权重 | 说明 |
-|------|----------|------|------|
-| 技术 SEO | 29 项 | 32% | Core Web Vitals、索引、安全 |
-| 页面元素 | 27 项 | 29% | Title、Meta、AI 搜索优化 |
-| 内容质量与 E-E-A-T | 33 项 | 36% | Google 核心排名信号 |
-| 本地 SEO | 3 项 | 3% | LocalBusiness Schema, NAP |
-| **总计** | **92 项** | **100%** | |
+| Dimension | Checks | Weight | Notes |
+|------|------|------|------|
+| Technical SEO | 29 | 32% | Crawlability, indexing, security, CWV |
+| On-Page SEO | 27 | 29% | Title, metadata, structure, AI-search readiness |
+| Content Quality & E-E-A-T | 33 | 36% | Content depth, trust, expertise, authority |
+| Local SEO | 3 | 3% | LocalBusiness schema, map signals, NAP |
+| **Total** | **92** | **100%** | |
 
-## 评分标准
+## Scoring Scale
 
-| 等级 | 分数 | 状态 |
+| Grade | Score | Status |
 |------|------|------|
-| A | 90-100 | 🟢 优秀 |
-| B | 80-89 | 🟢 良好 |
-| C | 70-79 | 🟡 中等 |
-| D | 60-69 | 🟡 较差 |
-| F | <60 | 🔴 不及格 |
+| A | 90-100 | Excellent |
+| B | 80-89 | Good |
+| C | 70-79 | Average |
+| D | 60-69 | Weak |
+| F | <60 | Poor |
 
-## 报告示例
+## Reports
 
-查看完整的报告示例：[assets/example-report.md](assets/example-report.md)
+- Default example report (English): [assets/example-report.en.md](assets/example-report.en.md)
+- Chinese example report: [assets/example-report.md](assets/example-report.md)
 
-报告包含：
-- 综合评分与各维度得分
-- P0/P1/P2 优先级行动清单
-- 92 项逐条检查结果
-- 针对性优化建议（附代码示例）
-- **开发者署名页脚**
+Every report includes:
+- Overall and dimension scores
+- P0/P1/P2 action items
+- Full 92-row checklist table
+- Actionable recommendations
+- Standard brand footer
 
-## 文件结构
+## File Structure
 
-```
+```text
 seo-audit/
-├── SKILL.md                    # Skill 主入口
-├── README.md                   # 本文件
-├── LICENSE                     # MIT 许可证
-├── CHANGELOG.md                # 版本历史
-├── references/
-│   ├── technical-seo.md        # 技术 SEO 25 项详情
-│   ├── on-page-elements.md     # 页面元素 20 项详情
-│   ├── content-eeat.md         # E-E-A-T 28 项详情
-│   ├── scoring-system.md       # 评分系统
-│   ├── report-template.md      # 报告模板
-│   └── ai-writing-detection.md # AI 写作特征检测
-└── assets/
-    └── example-report.md       # 示例报告
+|-- SKILL.md
+|-- README.md
+|-- README.zh-CN.md
+|-- USAGE.md
+|-- API_KEY_SETUP.md
+|-- QUOTA.md
+|-- CHANGELOG.md
+|-- docs/
+|   |-- en/
+|   |   |-- USAGE.md
+|   |   |-- API_KEY_SETUP.md
+|   |   `-- QUOTA.md
+|   `-- zh-CN/
+|       |-- USAGE.md
+|       |-- API_KEY_SETUP.md
+|       `-- QUOTA.md
+|-- references/
+|   |-- report-template.md
+|   |-- report-template.en.md
+|   |-- report-template.zh-CN.md
+|   |-- language-detection.md
+|   `-- SEO_TERMINOLOGY_GLOSSARY.md
+`-- assets/
+    |-- example-report.en.md
+    |-- example-report.md
+    `-- example-report.zh-CN.md
 ```
 
-## 技术要求
-
-本 Skill 不依赖 Python/Node.js，仅需：
-
-- **curl** - HTTP 请求
-- **WebFetch** - AI 内置工具
-- **PageSpeed API** - 可选（推荐配置以获取完整报告，见 [USAGE.md](USAGE.md)）
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 许可证
+## License
 
 [MIT License](LICENSE)
 
-## 致谢
+## Acknowledgements
 
-- Google Content Warehouse 泄露文档分析社区
-- [Hobo SEO Audit Framework](https://www.hobo-web.co.uk/)
-- SCA (Specialty Coffee Association) - 示例报告参考
-
-### 参考指南
-
-- **Google 搜索指南** (中文) - [https://developers.google.com/search/docs?hl=zh-cn](https://developers.google.com/search/docs?hl=zh-cn)
-- **Ahrefs SEO AI Search Checklist** - [https://ahrefs.com/blog/seo-ai-search-checklist/](https://ahrefs.com/blog/seo-ai-search-checklist/)
-- **微软 AEO & GEO 指导** - [https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
+- Google Search Central
+- Ahrefs SEO team
+- Microsoft Ads and Search guidance team
 
 ---
 
-**Made with ☕ by SEO enthusiasts**
+**SEO Audit Skill** | [GitHub](https://github.com/wonfull888/seo-audit) | Developer: [x.com/wonfull888](https://x.com/wonfull888)
