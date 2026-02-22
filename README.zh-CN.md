@@ -10,7 +10,15 @@
 - [微软 AEO & GEO 指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)]()
+
+## v1.4.0 新增能力
+
+- 基于 `Title + URL` 的网站分类（7+1）与动态选页（MVP）
+- 所有诊断强制抓取文章页
+- 报告开头新增“诊断总览”（含网站类型、抓取URL、总分、最大风险、P0修复项）
+- 报告统一保存到 `~/.claude/skills/seo-audit/reports/`（不存在自动创建）
+- 当环境变量缺失时自动读取 `.env` 中的 API Key
 
 ## 快速选择：运行模式
 
@@ -58,6 +66,10 @@ cp -r seo-audit ~/.claude/skills/
 export PAGE_SPEED_API_KEY="your_api_key_here"
 ```
 
+若环境变量不存在，Skill 会自动按顺序读取：
+1. `./.env`
+2. `~/.claude/skills/seo-audit/.env`
+
 详细文档：
 - [`API_KEY_SETUP.md`](API_KEY_SETUP.md)
 - [`QUOTA.md`](QUOTA.md)
@@ -68,8 +80,8 @@ export PAGE_SPEED_API_KEY="your_api_key_here"
 用户输入网址
     -> 1. 环境检查（API Key）
     -> 2. 报告语言检测
-    -> 3. 页面识别（sitemap + 启发式）
-    -> 4. 选择代表页面（首页 + 分类页 + 文章页）
+    -> 3. 网站分类识别（Title + URL）
+    -> 4. 选择代表页面（首页 + 关键业务页 + 文章页）
     -> 5. 数据采集（curl + WebFetch + 可选 PageSpeed API）
     -> 6. 四维度分析（92 项）
     -> 7. 生成并保存完整 Markdown 报告
@@ -89,6 +101,10 @@ export PAGE_SPEED_API_KEY="your_api_key_here"
 
 - 英文示例（默认）：[`assets/example-report.en.md`](assets/example-report.en.md)
 - 中文示例：[`assets/example-report.md`](assets/example-report.md)
+
+报告默认保存路径：
+
+- `~/.claude/skills/seo-audit/reports/seo-audit-report-{domain}-{timestamp}.md`
 
 ## 许可证
 

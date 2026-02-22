@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-02-22
+
 ### Added
 
 #### v1.4.0 MVP - Site classification and dynamic page selection
@@ -15,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added dynamic page selection rule: homepage + key business page + mandatory article page.
 - Added fail-safe fallback flow: sitemap-first, then homepage-link heuristic, then Hybrid mode without blocking audit.
 - Added site classification rule reference: `references/site-classification-mvp.md`.
+- Added report intro requirement: Executive Summary at the beginning with mandatory coverage fields.
+- Added mandatory report save path to skill directory `reports/` with auto-create behavior.
+- Added `.env` auto-load fallback for `PAGE_SPEED_API_KEY`.
 
 #### Test and validation artifacts
 - Added evaluator script: `tests/evaluate_site_classification_v140.py`.

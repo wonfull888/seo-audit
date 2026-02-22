@@ -10,7 +10,15 @@ Reference sources:
 - [Microsoft AEO & GEO Guide](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)]()
+
+## What's New in v1.4.0
+
+- MVP site classification with `Title + URL` (7+1 types) for dynamic page selection
+- Mandatory article-page capture in every audit
+- Executive Summary section at report start (includes site type, crawled URLs, overall score, key risk, P0 fixes)
+- Report output path standardized to `~/.claude/skills/seo-audit/reports/` (auto-create if missing)
+- API key auto-load from `.env` when env var is not present
 
 ## Quick Mode Selector
 
@@ -75,6 +83,10 @@ Google PageSpeed Insights API includes a free quota of 25,000 requests/day.
 export PAGE_SPEED_API_KEY="your_api_key_here"
 ```
 
+If environment variable is missing, the skill will auto-try:
+1. `./.env`
+2. `~/.claude/skills/seo-audit/.env`
+
 More details:
 - [API_KEY_SETUP.md](API_KEY_SETUP.md)
 - [QUOTA.md](QUOTA.md)
@@ -85,8 +97,8 @@ More details:
 User provides URL
     -> 1. Check environment (API key)
     -> 2. Detect report language
-    -> 3. Discover pages (sitemap.xml + heuristics)
-    -> 4. Select representative pages (home + category + article)
+    -> 3. Classify site type (Title + URL)
+    -> 4. Select representative pages (home + key business + article)
     -> 5. Collect data (curl + WebFetch + optional PageSpeed API)
     -> 6. Analyze 4 dimensions (92 checks)
     -> 7. Generate and save full Markdown report
@@ -118,11 +130,16 @@ User provides URL
 - Chinese example report: [assets/example-report.md](assets/example-report.md)
 
 Every report includes:
+- Executive Summary at the beginning
+- Site type and crawled URLs
 - Overall and dimension scores
 - P0/P1/P2 action items
 - Full 92-row checklist table
 - Actionable recommendations
 - Standard brand footer
+
+Default report save path:
+- `~/.claude/skills/seo-audit/reports/seo-audit-report-{domain}-{timestamp}.md`
 
 ## File Structure
 
