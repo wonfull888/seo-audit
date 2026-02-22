@@ -43,6 +43,19 @@ echo $PAGE_SPEED_API_KEY
 curl "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://example.com&key=$PAGE_SPEED_API_KEY"
 ```
 
+## Auto-load from `.env` (v1.4.0+)
+
+If `PAGE_SPEED_API_KEY` is not found in environment variables, the skill will automatically try:
+
+1. `./.env` (current working directory)
+2. `~/.claude/skills/seo-audit/.env` (skill directory)
+
+`.env` format example:
+
+```dotenv
+PAGE_SPEED_API_KEY="your_api_key_here"
+```
+
 ## Security Best Practices
 
 - Never commit real API keys

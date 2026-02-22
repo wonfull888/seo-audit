@@ -1,0 +1,104 @@
+{
+  "total_tested": 9,
+  "correct": 9,
+  "accuracy": 1.0,
+  "errors": [
+    {
+      "url": "https://www.newegg.com",
+      "expected": "ecommerce",
+      "error": "HTTPError: HTTP Error 400: Bad Request"
+    }
+  ],
+  "rows": [
+    {
+      "url": "https://www.siemens.com",
+      "expected": "corporate",
+      "predicted": "corporate",
+      "ok": true,
+      "score": 1.7,
+      "title": "Siemens home | Siemens",
+      "used_sitemap": false,
+      "paths": 47
+    },
+    {
+      "url": "https://www.tcl.com",
+      "expected": "corporate",
+      "predicted": "corporate",
+      "ok": true,
+      "score": 1.3,
+      "title": "TCL官网 | TCL电视-家用电器-智能家居-商用产品-光伏产业",
+      "used_sitemap": true,
+      "paths": 214
+    },
+    {
+      "url": "https://www.ebay.com",
+      "expected": "ecommerce",
+      "predicted": "ecommerce",
+      "ok": true,
+      "score": 2.4,
+      "title": "Electronics, Cars, Fashion, Collectibles &amp; More | eBay",
+      "used_sitemap": false,
+      "paths": 27
+    },
+    {
+      "url": "https://ahrefs.com/blog",
+      "expected": "content",
+      "predicted": "content",
+      "ok": true,
+      "score": 1.0,
+      "title": "Ahrefs Blog | Get Better at SEO &amp; Marketing",
+      "used_sitemap": false,
+      "paths": 14
+    },
+    {
+      "url": "https://moz.com/blog",
+      "expected": "content",
+      "predicted": "content",
+      "ok": true,
+      "score": 1.0,
+      "title": "The Moz Blog [SEO] - Moz",
+      "used_sitemap": false,
+      "paths": 121
+    },
+    {
+      "url": "https://www.notion.so",
+      "expected": "tool_saas",
+      "predicted": "tool_saas",
+      "ok": true,
+      "score": 1.6,
+      "title": "The AI workspace that works for you. | Notion",
+      "used_sitemap": false,
+      "paths": 85
+    },
+    {
+      "url": "https://forums.docker.com",
+      "expected": "community",
+      "predicted": "community",
+      "ok": true,
+      "score": 2.1,
+      "title": "Docker Community Forums",
+      "used_sitemap": false,
+      "paths": 12
+    },
+    {
+      "url": "https://www.yahoo.com",
+      "expected": "portal",
+      "predicted": "portal",
+      "ok": true,
+      "score": 5.7,
+      "title": "Yahoo | Mail, Weather, Search, Politics, News, Finance, Sports &amp; Videos",
+      "used_sitemap": false,
+      "paths": 30
+    },
+    {
+      "url": "https://startbootstrap.github.io/startbootstrap-landing-page/",
+      "expected": "single_page",
+      "predicted": "single_page",
+      "ok": true,
+      "score": 3.5,
+      "title": "Landing Page - Start Bootstrap Theme",
+      "used_sitemap": false,
+      "paths": 2
+    }
+  ]
+}

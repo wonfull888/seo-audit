@@ -1,10 +1,10 @@
 ---
 name: seo-audit
-version: 1.3.0
+version: 1.4.0
 description: |
   SEO 诊断专家,基于 Google、Ahrefs、微软搜索指南设计的 92 项检查清单。
   触发词:SEO审计、SEO诊断、网站SEO检查、为什么排名不好、技术SEO检查、页面SEO、E-E-A-T检查、内容质量分析。
-  输入一个网址,自动执行技术SEO(29项)、页面元素(27项)、内容质量与E-E-A-T(33项)、本地SEO(3项)四维度诊断,支持智能语言检测并生成中英文报告。
+  输入一个网址,自动执行技术SEO(29项)、页面元素(27项)、内容质量与E-E-A-T(33项)、本地SEO(3项)四维度诊断,支持智能语言检测、站点分类与动态选页,生成中英文报告。
 ---
 
 # SEO Audit Skill
@@ -22,10 +22,21 @@ description: |
 
 ### 1. 环境检查与交互
 
-在开始任何诊断之前，**必须**先检查环境变量 `PAGE_SPEED_API_KEY`。
+在开始任何诊断之前，**必须**按以下优先级检查 `PAGE_SPEED_API_KEY`：
+
+1. 当前会话环境变量：`PAGE_SPEED_API_KEY`
+2. 本地 `.env` 文件自动读取（按顺序尝试）：
+   - `./.env`（当前工作目录）
+   - `~/.claude/skills/seo-audit/.env`（Skill 目录）
+
+读取 `.env` 时要求：
+- 仅读取 `PAGE_SPEED_API_KEY=` 行
+- 自动去除包裹引号
+- 不得在对话中输出完整 Key（仅允许掩码展示）
 
 - **情况 A：API Key 已配置**
   - 直接执行**完整诊断模式**（包含 PageSpeed 性能分析）。
+  - 如果 Key 来自 `.env`，提示：`已从 .env 自动加载 PAGE_SPEED_API_KEY（masked）`。
   - 无需额外询问用户。
 
 - **情况 B：API Key 未配置**
@@ -46,7 +57,11 @@ description: |
 - **文件保存**：
   - 必须将报告保存为 Markdown 文件。
   - 命名格式：`seo-audit-report-{domain}-{timestamp}.md`
-  - 保存路径：用户当前工作目录或指定目录。
+  - 保存路径：**Skill 所在目录**下的 `reports/` 文件夹。
+  - 若 `reports/` 不存在，必须先自动创建。
+  - 示例路径：`~/.claude/skills/seo-audit/reports/seo-audit-report-{domain}-{timestamp}.md`
+  - 若报告被保存到其他目录（如当前工作目录），视为不合规，必须重新保存到 `reports/`。
+  - 报告完成后必须在对话中单独输出：`Saved to: <absolute_path>`。
 - **品牌页脚**：
   - 所有生成的报告（无论是展示还是保存的文件），**必须**在文件末尾包含以下品牌信息：
     ```markdown
@@ -60,6 +75,17 @@ description: |
     - 英文报告：`references/report-template.en.md`
     - 中文报告：`references/report-template.zh-CN.md`
     - 仅在兼容场景使用 `references/report-template.md`（英文默认入口）
+  - **分类结果附录**（v1.4.0+）：
+    - 在附录中输出站点分类信息（类型、Title/URL 信号、页面来源、回退路径）
+- **开篇诊断总览（必须）**：
+  - 在报告开头（综合评分之前）增加“诊断总览 / Executive Summary”段落。
+  - 中文报告：约 300-800 字；英文报告：约 300-800 words。
+  - 必须覆盖以下信息：
+    1. 网站类型判定结果
+    2. 本次抓取并诊断的页面（首页、关键业务页、文章页），并在总览中明确列出页面 URL
+    3. 综合总分与整体结论（好/中/差）
+    4. 问题最严重的维度与核心风险
+    5. 最需要优先修复的 1-2 个事项（P0）
 
 ### 3. 报告语言检测
 
@@ -99,6 +125,47 @@ Default: English
 
 实现细节参考：`references/language-detection.md` 和 `references/quick-confirm-mechanism.md`
 
+### 4. 站点分类与动态选页（v1.4.0 MVP）
+
+在页面抓取前，必须先进行站点分类（MVP 方案 B）。
+
+#### 分类体系（7+1）
+
+- 企业官网（Corporate）
+- 电商（E-commerce）
+- 内容站（Content）
+- 工具/SaaS（Tool/SaaS）
+- 社区（Community）
+- 门户（Portal）
+- 单页站（Single-Page Site）
+- 混合/未确定（Hybrid/Unknown）
+
+#### 信号与权重
+
+- `Title`（首页标题关键词，主信号）
+- `URL`（sitemap 或首页链接路径，校验信号）
+
+```text
+score = 0.7 * Title + 0.3 * URL
+```
+
+#### 决策规则
+
+- 仅输出主分类（Top-1）
+- 最高分低于阈值时进入 `Hybrid/Unknown`
+- 分类失败不得中断审计流程（Fail-safe）
+
+#### 动态选页规则（MVP）
+
+- 每次诊断固定抓取 3 页：
+  1) 首页
+  2) 关键业务页（按分类选择）
+  3) 文章页（**强制**）
+- 若文章页未直接命中，需继续在可发现链接中优先检索内容路径
+- 若无 sitemap：退回首页链接启发式抓取
+
+规则细节参考：`references/site-classification-mvp.md`
+
 ---
 
 ## 快速开始
@@ -126,15 +193,15 @@ Default: English
    ├─ 输入语言自动检测
    └─ 默认英文
     ↓
-3. 页面识别
-   ├─ 尝试获取 /sitemap.xml
-   ├─ 成功 → 解析 URL 结构
-   └─ 失败 → 从首页链接启发式识别
+3. 站点分类 (Title + URL)
+   ├─ 首页 Title 关键词
+   ├─ URL 路径特征
+   └─ 得到主分类 (Top-1)
     ↓
 4. 选择 3 个代表页面
    ├─ 首页: /
-   ├─ 分类页: 第一层路径(如 /blog, /products)
-   └─ 文章页: 最深层路径
+   ├─ 关键业务页: 按分类选择
+   └─ 文章页: 强制抓取
     ↓
 5. 数据采集(并行)
    ├─ curl: robots.txt, HTTP headers
@@ -229,7 +296,7 @@ Google PageSpeed Insights API 提供 **每天 25,000 次免费请求**,个人使
 | Title 长度 | 50-60 字符 |
 | Meta Description 长度 | 150-160 字符 |
 | 首页最低字数 | 500 字 |
-| 分类页最低字数 | 300 字 |
+| 关键业务页最低字数 | 300 字 |
 | 文章页最低字数 | 1000 字 |
 | 内部链接 | ≥3 个/页 |
 | URL 长度 | ≤100 字符 |
@@ -245,11 +312,13 @@ Google PageSpeed Insights API 提供 **每天 25,000 次免费请求**,个人使
 - [AI 写作特征检测](references/ai-writing-detection.md) - Em dash、高频词、AI 短语模式
 - [语言检测规则](references/language-detection.md)
 - [快速确认机制](references/quick-confirm-mechanism.md)
+- [站点分类规则（MVP）](references/site-classification-mvp.md)
 - [示例报告（英文）](assets/example-report.en.md)
 - [示例报告（中文）](assets/example-report.md)
 
 ## 版本历史
 
+- **v1.4.0** (开发中): 站点分类与动态选页（MVP）：7+1 分类体系、Title+URL 轻量识别、关键业务页选择、文章页强制抓取与 Fail-safe 回退。
 - **v1.3.0** (2026-02-18): 完整国际化支持。默认英文 README 和发布说明；新增文档双语结构、报告语言智能检测、双语报告模板与示例。
 - **v1.2.2** (2026-02-10): 优化报告结构，将页面数据预览（Title、Meta、H1）移至页面元素部分开头，提升阅读连贯性。
 - **v1.2.1** (2026-02-10): 强制全量报告展示，禁止折叠检查项。

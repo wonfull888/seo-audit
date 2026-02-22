@@ -89,6 +89,25 @@ SEO Audit Skill 是一个基于 Google、Ahrefs、微软官方搜索指南设计
 | 完整模式 | **必需** | 需要配置环境变量 |
 | 基础模式 | 可选 | 无需配置,开箱即用 |
 
+### 发布前强制安全检查（必须）
+
+每次提交到 GitHub 前，必须完成以下检查：
+
+1. **确认 `.env` 未被跟踪**
+   - 运行：`git ls-files .env`
+   - 期望：无输出（若有输出，必须先移除跟踪）
+
+2. **确认 `.env.example` 不含真实 API Key**
+   - `PAGE_SPEED_API_KEY` 只能是占位符：`"your_api_key_here"`
+   - 禁止出现真实 Key（例如 `AIza...`）
+
+3. **提交前扫描敏感字段**
+   - 建议运行：`git grep -n "AIza"`
+   - 若命中结果，必须逐条确认并清理后再提交
+
+4. **PR/发布阻断规则**
+   - 以上任一检查不通过，禁止推送到 GitHub
+
 ---
 
 ## 版本信息
@@ -103,7 +122,7 @@ SEO Audit Skill 是一个基于 Google、Ahrefs、微软官方搜索指南设计
 
 ## 后续规划
 
-### v1.3.0 - 已开发完成（待发布）
+### v1.3.0 - 已发布
 
 ✅ **国际化基础完成**
 - 英文 README 默认展示（GitHub 首页）
@@ -120,21 +139,48 @@ SEO Audit Skill 是一个基于 Google、Ahrefs、微软官方搜索指南设计
 - `references/report-template.zh-CN.md`
 - `assets/example-report.en.md`
 
-### v1.4.0 - 智能网站识别（规划中）
+### v1.4.0 - 智能网站识别与动态选页（规划中）
 
-**核心目标**：按网站类型自动选择更有代表性的页面进行诊断。
+**核心目标**：按网站类型自动选择最有诊断价值的页面，提高检查命中率与建议准确性。
 
-**主要功能**:
-- [ ] 网站类型识别：SaaS / E-commerce / Content / Corporate / Tool
-- [ ] 动态页面选择：按类型优先抓取关键业务页面
-  - SaaS：功能页、解决方案页
-  - 电商：商品详情页、集合页
-  - 企业站：服务页、案例页
-- [ ] **文章页强制抓取（Mandatory）**：无论何种类型，都必须包含文章页用于内容质量与 E-E-A-T 评估
-- [ ] 低置信度识别时的用户确认机制
-- [ ] 回退策略：站点结构不清晰时自动使用 sitemap + 首页链接混合启发式
+**v1.4.0（MVP）功能范围 - 已冻结**：
 
-**预估周期**：5-7 天
+1. **网站动态分类（7+1 类）**
+   - [ ] 企业官网（Corporate）
+   - [ ] 电商（E-commerce）
+   - [ ] 内容站（Content）
+   - [ ] 工具/SaaS（Tool/SaaS）
+   - [ ] 社区（Community）
+   - [ ] 门户（Portal）
+   - [ ] 单页站（Single-Page Site）
+   - [ ] 混合/未确定（Hybrid/Unknown）
+
+2. **分类识别（MVP）**
+   - [ ] 仅使用 `Title + URL`（Title 主信号，URL 校验）
+   - [ ] 输出单一主分类（Top-1）
+
+3. **动态选页（MVP）**
+   - [ ] 按类型选择 1 个关键业务页
+   - [ ] **强制抓取文章页（Mandatory）**
+
+4. **兜底与稳定性**
+   - [ ] sitemap 优先，失败回退首页链接启发式
+   - [ ] 分类失败进入 Hybrid，审计流程不阻断（Fail-safe）
+
+**预估周期**：3-4 天  
+**任务拆解文档**：`TASKS_v1.4.0.md`
+
+### v1.4.1 - 分类增强与可解释性（规划中）
+
+1. [ ] 增加 Nav 辅助信号，升级为 `Title + URL + Nav`
+2. [ ] 输出 Top-2 + 置信度
+3. [ ] 低置信度时触发快速确认
+4. [ ] 文章页二次检索增强（`/blog`、`/news`、`/article`、`/post` 等）
+5. [ ] 报告附录输出分类证据与判定路径
+6. [ ] 建立分类准确率与选页命中率测试集
+
+**预估周期**：2-3 天  
+**任务拆解文档**：`TASKS_v1.4.1.md`
 
 ### v1.5.0+（候选）
 
@@ -152,6 +198,8 @@ SEO Audit Skill 是一个基于 Google、Ahrefs、微软官方搜索指南设计
 | [README.md](./README.md) | GitHub 项目说明 |
 | [USAGE.md](./USAGE.md) | 详细使用指南 |
 | [TASKS_v1.3.0.md](./TASKS_v1.3.0.md) | v1.3.0 任务拆解 |
+| [TASKS_v1.4.0.md](./TASKS_v1.4.0.md) | v1.4.0 任务拆解 |
+| [TASKS_v1.4.1.md](./TASKS_v1.4.1.md) | v1.4.1 任务拆解 |
 | [API_KEY_SETUP.md](./API_KEY_SETUP.md) | API Key 配置 |
 | [QUOTA.md](./QUOTA.md) | 免费额度说明 |
 | [CHANGELOG.md](./CHANGELOG.md) | 版本历史 |

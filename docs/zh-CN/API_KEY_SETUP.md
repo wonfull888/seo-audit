@@ -43,6 +43,19 @@ echo $PAGE_SPEED_API_KEY
 curl "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://example.com&key=$PAGE_SPEED_API_KEY"
 ```
 
+## `.env` 自动加载（v1.4.0+）
+
+当环境变量中没有 `PAGE_SPEED_API_KEY` 时，Skill 会自动按顺序尝试：
+
+1. `./.env`（当前工作目录）
+2. `~/.claude/skills/seo-audit/.env`（Skill 目录）
+
+`.env` 示例：
+
+```dotenv
+PAGE_SPEED_API_KEY="your_api_key_here"
+```
+
 ## 安全建议
 
 - 不要把真实 API Key 写入仓库文件

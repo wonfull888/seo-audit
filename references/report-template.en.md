@@ -6,7 +6,23 @@
 # SEO Audit Report - {domain}
 
 **Generated**: {YYYY-MM-DD HH:MM:SS}
-**Pages Analyzed**: Homepage, Category Page, Article Page
+**Pages Analyzed**: Homepage, Key Business Page, Article Page
+
+---
+
+## 🧭 Executive Summary
+
+{executive_summary_300_800_words}
+
+> Must include: site type, analyzed page scope, total score with overall judgment, weakest dimension, and the top 1-2 urgent fixes (P0).
+
+**Crawled Pages (URLs required)**
+
+| Page Role | URL |
+|-----------|-----|
+| Homepage | {homepage_url} |
+| Key Business Page | {business_page_url} |
+| Article Page | {article_page_url} |
 
 ---
 
@@ -73,7 +89,7 @@
 
 ### 1. Technical SEO Results (29)
 
-| ID | Check Item | Home | Category | Article | Status |
+| ID | Check Item | Home | Business | Article | Status |
 |----|------------|------|----------|---------|--------|
 | T1.1 | robots.txt | {result} | - | - | {status} |
 | T1.2 | sitemap.xml | {result} | - | - | {status} |
@@ -111,24 +127,24 @@
 | Page | Title | Length | Meta Description | Length |
 |------|-------|--------|------------------|--------|
 | Home | {title} | {len} | {desc} | {len} |
-| Category | {title} | {len} | {desc} | {len} |
+| Business | {title} | {len} | {desc} | {len} |
 | Article | {title} | {len} | {desc} | {len} |
 
 **Heading Structure**
 
 - **Home**: {h1}
-- **Category**: {h1}
+- **Business**: {h1}
 - **Article**: {h1}
 
 **Keyword Distribution**
 
 - **Home**: {keywords}
-- **Category**: {keywords}
+- **Business**: {keywords}
 - **Article**: {keywords}
 
 #### 2.2 Detailed Check Results
 
-| ID | Check Item | Home | Category | Article | Status |
+| ID | Check Item | Home | Business | Article | Status |
 |----|------------|------|----------|---------|--------|
 | P1 | Title tag exists | {result} | {result} | {result} | {status} |
 | P2 | Title length | {result} | {result} | {result} | {status} |
@@ -160,7 +176,7 @@
 
 ### 3. Content Quality & E-E-A-T Results (33)
 
-| ID | Check Item | Home | Category | Article | Status |
+| ID | Check Item | Home | Business | Article | Status |
 |----|------------|------|----------|---------|--------|
 | E1 | Author byline | - | - | {result} | {status} |
 | E2 | Author bio link | - | - | {result} | {status} |
@@ -205,8 +221,19 @@
 | Page Type | URL | Crawl Time |
 |-----------|-----|------------|
 | Homepage | {url} | {timestamp} |
-| Category Page | {url} | {timestamp} |
+| Key Business Page | {url} | {timestamp} |
 | Article Page | {url} | {timestamp} |
+
+### B. Site Classification Result (v1.4.0 MVP)
+
+| Item | Value |
+|------|-------|
+| Classified Type | {site_type} |
+| Method | Title + URL (Top-1) |
+| Title Signals | {title_signals} |
+| URL Signals | {url_signals} |
+| Page Selection Source | {selection_source} |
+| Fallback Path | {fallback_path} |
 
 ---
 

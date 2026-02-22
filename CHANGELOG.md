@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+#### v1.4.0 MVP - Site classification and dynamic page selection
+- Added lightweight site classification strategy based on `Title + URL` signals (Top-1 output).
+- Added 7+1 site type framework: Corporate, E-commerce, Content, Tool/SaaS, Community, Portal, Single-Page, Hybrid/Unknown.
+- Added dynamic page selection rule: homepage + key business page + mandatory article page.
+- Added fail-safe fallback flow: sitemap-first, then homepage-link heuristic, then Hybrid mode without blocking audit.
+- Added site classification rule reference: `references/site-classification-mvp.md`.
+
+#### Test and validation artifacts
+- Added evaluator script: `tests/evaluate_site_classification_v140.py`.
+- Added sample dataset: `tests/site_classification_samples_v140.json`.
+- Added result outputs:
+  - `tests/v1.4.0-site-classification-results.md`
+  - `tests/v1.4.0-site-classification-results.json`
+
+### Changed
+
+- Updated `SKILL.md` to include v1.4.0 classification workflow and appendix output requirements.
+- Updated bilingual report templates to use "Key Business Page" instead of fixed "Category Page".
+- Split planning scope into:
+  - `TASKS_v1.4.0.md` (MVP)
+  - `TASKS_v1.4.1.md` (enhancements)
+
 ## [1.3.0] - 2026-02-18
 
 ### Added
