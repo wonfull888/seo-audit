@@ -10,15 +10,15 @@
 - [微软 AEO & GEO 指南](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.4.1-blue.svg)]()
 
-## v1.4.0 新增能力
+## v1.4.1 新增能力
 
-- 基于 `Title + URL` 的网站分类（7+1）与动态选页（MVP）
-- 所有诊断强制抓取文章页
-- 报告开头新增“诊断总览”（含网站类型、抓取URL、总分、最大风险、P0修复项）
-- 报告统一保存到 `~/.claude/skills/seo-audit/reports/`（不存在自动创建）
-- 当环境变量缺失时自动读取 `.env` 中的 API Key
+- 分类能力升级为 `Title + URL + Nav`
+- 输出 Top-2 候选类型 + 置信度
+- 低置信度场景支持快速确认，且无响应默认继续（不阻断）
+- 在主内容路径基础上新增文章页二次发现（`/insights`、`/docs`）
+- 报告附录新增可解释字段（Top-1/Top-2、置信度、命中信号、回退路径）
 
 ## 快速选择：运行模式
 

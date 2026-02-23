@@ -10,15 +10,15 @@ Reference sources:
 - [Microsoft AEO & GEO Guide](https://about.ads.microsoft.com/content/dam/sites/msa-about/global/common/content-lib/pdf/from-discovery-to-influence-a-guide-to-aeo-and-geo.pdf)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/version-1.4.1-blue.svg)]()
 
-## What's New in v1.4.0
+## What's New in v1.4.1
 
-- MVP site classification with `Title + URL` (7+1 types) for dynamic page selection
-- Mandatory article-page capture in every audit
-- Executive Summary section at report start (includes site type, crawled URLs, overall score, key risk, P0 fixes)
-- Report output path standardized to `~/.claude/skills/seo-audit/reports/` (auto-create if missing)
-- API key auto-load from `.env` when env var is not present
+- Classification upgraded to `Title + URL + Nav`
+- Top-2 site-type output + confidence score (with medium/low confidence handling)
+- Non-blocking low-confidence confirmation strategy (default continue)
+- Article-page secondary discovery (`/insights`, `/docs`) added on top of primary content paths
+- Report appendix now includes explainability fields (Top-1/Top-2, confidence, signals, fallback path)
 
 ## Quick Mode Selector
 
