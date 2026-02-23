@@ -1,6 +1,6 @@
 ---
 name: seo-audit
-version: 1.4.0
+version: 1.4.1
 description: |
   SEO 诊断专家,基于 Google、Ahrefs、微软搜索指南设计的 92 项检查清单。
   触发词:SEO审计、SEO诊断、网站SEO检查、为什么排名不好、技术SEO检查、页面SEO、E-E-A-T检查、内容质量分析。
@@ -75,8 +75,8 @@ description: |
     - 英文报告：`references/report-template.en.md`
     - 中文报告：`references/report-template.zh-CN.md`
     - 仅在兼容场景使用 `references/report-template.md`（英文默认入口）
-  - **分类结果附录**（v1.4.0+）：
-    - 在附录中输出站点分类信息（类型、Title/URL 信号、页面来源、回退路径）
+  - **分类结果附录**（v1.4.1+）：
+    - 在附录中输出站点分类信息（Top-2、置信度、Title/URL/Nav 信号、页面来源、回退路径、确认策略）
 - **开篇诊断总览（必须）**：
   - 在报告开头（综合评分之前）增加“诊断总览 / Executive Summary”段落。
   - 中文报告：约 300-800 字；英文报告：约 300-800 words。
@@ -125,9 +125,9 @@ Default: English
 
 实现细节参考：`references/language-detection.md` 和 `references/quick-confirm-mechanism.md`
 
-### 4. 站点分类与动态选页（v1.4.0 MVP）
+### 4. 站点分类与动态选页（v1.4.1）
 
-在页面抓取前，必须先进行站点分类（MVP 方案 B）。
+在页面抓取前，必须先进行站点分类（增强方案）。
 
 #### 分类体系（7+1）
 
@@ -144,15 +144,23 @@ Default: English
 
 - `Title`（首页标题关键词，主信号）
 - `URL`（sitemap 或首页链接路径，校验信号）
+- `Nav`（导航词，辅助信号）
 
 ```text
-score = 0.7 * Title + 0.3 * URL
+score = w_title * Title + w_url * URL + w_nav * Nav
+default weights: w_title=0.5, w_url=0.3, w_nav=0.2
 ```
 
 #### 决策规则
 
-- 仅输出主分类（Top-1）
-- 最高分低于阈值时进入 `Hybrid/Unknown`
+- 输出 Top-2 候选类型（Top-1、Top-2）
+- 输出 Top-1 置信度（0-1）
+- 阈值建议：
+  - `high >= 0.70`
+  - `medium 0.45-0.69`
+  - `low < 0.45`
+- `medium`/`low` 置信度触发快速确认提示；无响应按 Top-1 继续
+- 若低置信度且类型冲突，进入 `Hybrid/Unknown`
 - 分类失败不得中断审计流程（Fail-safe）
 
 #### 动态选页规则（MVP）
@@ -161,10 +169,22 @@ score = 0.7 * Title + 0.3 * URL
   1) 首页
   2) 关键业务页（按分类选择）
   3) 文章页（**强制**）
-- 若文章页未直接命中，需继续在可发现链接中优先检索内容路径
+- 若文章页未直接命中，执行二次检索：`/blog`、`/news`、`/article`、`/post`、`/insights`、`/docs`
 - 若无 sitemap：退回首页链接启发式抓取
 
-规则细节参考：`references/site-classification-mvp.md`
+规则细节参考：`references/site-classification-v141.md`
+
+#### 低置信度快速确认提示
+
+```text
+⚠️ Site type confidence is medium/low.
+Detected Top-2:
+1) {type_1} ({confidence_1})
+2) {type_2} ({confidence_2})
+Use 1 or 2. Default: 1
+```
+
+无用户响应时：默认选择 1 并继续，不阻断诊断。
 
 ---
 
@@ -193,10 +213,12 @@ score = 0.7 * Title + 0.3 * URL
    ├─ 输入语言自动检测
    └─ 默认英文
     ↓
-3. 站点分类 (Title + URL)
+3. 站点分类 (Title + URL + Nav)
    ├─ 首页 Title 关键词
    ├─ URL 路径特征
-   └─ 得到主分类 (Top-1)
+   ├─ Nav 导航词特征
+   ├─ 输出 Top-2 + 置信度
+   └─ 低置信度时快速确认
     ↓
 4. 选择 3 个代表页面
    ├─ 首页: /
@@ -312,13 +334,14 @@ Google PageSpeed Insights API 提供 **每天 25,000 次免费请求**,个人使
 - [AI 写作特征检测](references/ai-writing-detection.md) - Em dash、高频词、AI 短语模式
 - [语言检测规则](references/language-detection.md)
 - [快速确认机制](references/quick-confirm-mechanism.md)
-- [站点分类规则（MVP）](references/site-classification-mvp.md)
+- [站点分类规则（v1.4.1）](references/site-classification-v141.md)
 - [示例报告（英文）](assets/example-report.en.md)
 - [示例报告（中文）](assets/example-report.md)
 
 ## 版本历史
 
-- **v1.4.0** (开发中): 站点分类与动态选页（MVP）：7+1 分类体系、Title+URL 轻量识别、关键业务页选择、文章页强制抓取与 Fail-safe 回退。
+- **v1.4.1** (开发中): 分类增强与可解释性：Title+URL+Nav、Top-2 + 置信度、低置信度快速确认、文章页二次检索与附录证据链路。
+- **v1.4.0** (2026-02-22): 站点分类与动态选页（MVP）：7+1 分类体系、Title+URL 轻量识别、关键业务页选择、文章页强制抓取与 Fail-safe 回退。
 - **v1.3.0** (2026-02-18): 完整国际化支持。默认英文 README 和发布说明；新增文档双语结构、报告语言智能检测、双语报告模板与示例。
 - **v1.2.2** (2026-02-10): 优化报告结构，将页面数据预览（Title、Meta、H1）移至页面元素部分开头，提升阅读连贯性。
 - **v1.2.1** (2026-02-10): 强制全量报告展示，禁止折叠检查项。

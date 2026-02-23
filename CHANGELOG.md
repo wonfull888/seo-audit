@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### v1.4.1 - Classification enhancement and explainability
+- Added enhanced classification strategy with `Title + URL + Nav` signals.
+- Added Top-2 type output and confidence score/band output.
+- Added low-confidence quick confirmation strategy with non-blocking default behavior.
+- Added article secondary-path discovery (`/insights`, `/docs`) on top of primary content paths.
+- Added new reference doc: `references/site-classification-v141.md`.
+- Added v1.4.1 evaluator and artifacts:
+  - `tests/evaluate_site_classification_v141.py`
+  - `tests/site_classification_samples_v141.json`
+  - `tests/v1.4.1-site-classification-results.md`
+  - `tests/v1.4.1-site-classification-results.json`
+  - `tests/v1.4.1-acceptance.md`
+
+### Changed
+
+- Updated `SKILL.md` classification workflow from v1.4.0 MVP to v1.4.1 enhanced flow.
+- Updated bilingual report templates to include Top-2, confidence, Nav signals, and confirmation action fields.
+- Updated `TASKS_v1.4.1.md` to atomic tasks and marked implementation/testing completion with evidence links.
+
 ## [1.4.0] - 2026-02-22
 
 ### Added

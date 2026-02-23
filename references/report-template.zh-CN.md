@@ -224,14 +224,18 @@
 | 关键业务页 | {url} | {timestamp} |
 | 文章页 | {url} | {timestamp} |
 
-### B. 站点分类结果（v1.4.0 MVP）
+### B. 站点分类结果（v1.4.1）
 
 | 项目 | 值 |
 |------|----|
-| 判定类型 | {site_type} |
-| 判定方式 | Title + URL（Top-1） |
+| Top-1 类型 | {site_type_top1} |
+| Top-2 类型 | {site_type_top2} |
+| Top-1 置信度 | {site_type_confidence} |
+| 用户确认动作 | {type_confirmation_action} |
+| 判定方式 | Title + URL + Nav |
 | Title 命中 | {title_signals} |
 | URL 命中 | {url_signals} |
+| Nav 命中 | {nav_signals} |
 | 页面来源 | {selection_source} |
 | 回退路径 | {fallback_path} |
 

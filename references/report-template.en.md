@@ -224,14 +224,18 @@
 | Key Business Page | {url} | {timestamp} |
 | Article Page | {url} | {timestamp} |
 
-### B. Site Classification Result (v1.4.0 MVP)
+### B. Site Classification Result (v1.4.1)
 
 | Item | Value |
 |------|-------|
-| Classified Type | {site_type} |
-| Method | Title + URL (Top-1) |
+| Top-1 Type | {site_type_top1} |
+| Top-2 Type | {site_type_top2} |
+| Confidence (Top-1) | {site_type_confidence} |
+| Confirmation Action | {type_confirmation_action} |
+| Method | Title + URL + Nav |
 | Title Signals | {title_signals} |
 | URL Signals | {url_signals} |
+| Nav Signals | {nav_signals} |
 | Page Selection Source | {selection_source} |
 | Fallback Path | {fallback_path} |
 

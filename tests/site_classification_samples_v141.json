@@ -1,0 +1,12 @@
+[
+  {"url": "https://www.siemens.com", "expected": "corporate"},
+  {"url": "https://www.tcl.com", "expected": "corporate"},
+  {"url": "https://www.ebay.com", "expected": "ecommerce"},
+  {"url": "https://ahrefs.com/blog", "expected": "content"},
+  {"url": "https://moz.com/blog", "expected": "content"},
+  {"url": "https://www.notion.so", "expected": "tool_saas"},
+  {"url": "https://asana.com", "expected": "tool_saas"},
+  {"url": "https://forums.docker.com", "expected": "community"},
+  {"url": "https://www.yahoo.com", "expected": "portal"},
+  {"url": "https://startbootstrap.github.io/startbootstrap-landing-page/", "expected": "single_page"}
+]
